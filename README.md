@@ -6,7 +6,7 @@ A Power BI dashboard analyzing Medicare Advantage (MA) enrollment and market pen
 
 ## Background
 
-I work in Medicare Advantage operations — enrollment validation, encounter data quality, and CMS compliance. This dashboard applies the same lens I use professionally (validating data, tracing discrepancies to root cause, reconciling across sources) to a public dataset, as a self-directed skill-building project.
+I work in Medicare Advantage operations: enrollment validation, encounter data quality, and CMS compliance. This dashboard applies the same lens I use professionally (validating data, tracing discrepancies to root cause, reconciling across sources) to a public dataset, as a self-directed skill-building project.
 
 **This project is built entirely on CMS's publicly available data. It is not affiliated with, and does not reference or derive from, any employer data, systems, or internal reporting.**
 
@@ -16,16 +16,16 @@ How does Medicare Advantage adoption vary across states and counties, and which 
 
 ## Key Findings
 
-- **Puerto Rico, Michigan, and Alabama** show the highest state-level MA penetration (60%+), while several other states trail well behind - a gap likely driven by plan availability and provider network density by market.
+- **Puerto Rico, Michigan, and Alabama** show the highest state-level MA penetration (60%+), while several other states trail well behind, a gap likely driven by plan availability and provider network density by market.
 - County-level penetration varies dramatically even within the same state, which the dashboard's drill-down view surfaces directly.
-- **National MA penetration sits at ~51.2%**  - just over half of eligible beneficiaries are enrolled in MA rather than Original Medicare.
+- **National MA penetration sits at ~51.2%** - just over half of eligible beneficiaries are enrolled in MA rather than Original Medicare.
 
 ## Data Quality Notes (the part I actually spent the most time on)
 
-Working with this dataset surfaced two real data-quality issues that had to be handled deliberately, not just cleaned away:
+Working with this dataset surfaced two things worth handling deliberately, not just cleaning away:
 
-1. **A mathematically impossible penetration rate.** One small territory (Virgin Islands-"St. John") showed a recomputed penetration rate of 320%: CMS's own `Enrolled` count exceeded their own `Eligibles` count for that row. CMS's published `Penetration` column masks this by capping at 100%, but recalculating from raw sums exposes the inconsistency. Handled by filtering to counties with more than 500 eligible beneficiaries, which removes this and other small-sample distortions.
-2. **An administrative placeholder row.** "Pending County Designation" is not a real county. It's a CMS bucket for beneficiaries whose county assignment is still being processed. Filtered out explicitly so it doesn't get misread as a geographic data point.
+1. **Small-population counties can produce misleading rates.** A few very small counties/territories showed penetration rates well above 100% once recalculated from raw enrollment and eligibility counts, a reminder that percentages built on tiny denominators need a minimum sample-size check before they're trustworthy. Handled by filtering to counties with more than 500 eligible beneficiaries, which removes these distortions.
+2. **An administrative placeholder row.** "Pending County Designation" is not a real county, it's a CMS bucket for beneficiaries whose county assignment is still being processed. Filtered out explicitly so it doesn't get misread as a geographic data point.
 
 ## Methodology
 
